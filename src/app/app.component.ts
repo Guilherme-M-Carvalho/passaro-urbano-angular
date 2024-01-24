@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { OfertasService } from './ofertas.service';
 
 @Component({
-  selector: 'gui-root',
-  standalone: true,
-  imports: [RouterOutlet],
+  selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers: [OfertasService]
 })
 export class AppComponent {
   title = 'app2';
+
 }
