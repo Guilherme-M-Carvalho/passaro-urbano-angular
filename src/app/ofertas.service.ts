@@ -2,7 +2,9 @@ import { OfertaModel } from "./shared/oferta.model"
 import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { URL_API } from "./app.api";
 
 @Injectable()
 export class OfertasService {
@@ -155,38 +157,35 @@ export class OfertasService {
     ]
 
     public ondeFica: Array<any> = [
-		{
-			id: 1,
-			descricao: "Avenida João da Silva, 255, São Paulo - SP"
-		},
-		{
-			id: 2,
-			descricao: "Rua Francisco Mendes, 1000, Rio de Janeiro - SP "
-		},
-		{
-			id: 3,
-			descricao: "Avenida Lúcio Rodrigues Alves, 33, Fortaleza - CE"
-		},
-		{
-			id: 4,
-			descricao: "Avenida José de Oliveira, 550, Campo Grande - MS"
-		},
-		{
-			id: 5,
-			descricao: "Avenida Júlia Abrão, 77, São Paulo - SP"
-		},
-		{
-			id: 6,
-			descricao: "Estrada Maria das Graças, 12, Salvador - BA "
-		}
-	]
+        {
+            id: 1,
+            descricao: "Avenida João da Silva, 255, São Paulo - SP"
+        },
+        {
+            id: 2,
+            descricao: "Rua Francisco Mendes, 1000, Rio de Janeiro - SP "
+        },
+        {
+            id: 3,
+            descricao: "Avenida Lúcio Rodrigues Alves, 33, Fortaleza - CE"
+        },
+        {
+            id: 4,
+            descricao: "Avenida José de Oliveira, 550, Campo Grande - MS"
+        },
+        {
+            id: 5,
+            descricao: "Avenida Júlia Abrão, 77, São Paulo - SP"
+        },
+        {
+            id: 6,
+            descricao: "Estrada Maria das Graças, 12, Salvador - BA "
+        }
+    ]
 
-    async getOfertas(): Promise<OfertaModel[]> {
-        // await this.http.jsonp("http://localhost:3000/ofertas")
-        // .then((value: any) => {
-        //   console.log(`Result: ` + JSON.parse(value));
-        // })
-        return this.ofertas
+    getOfertas(): Observable<Object> {
+        return this.http.get("http://localhost:3000/ofertas", { responseType: "json", })
+            
     }
 
     async getOfertasPorCatergoria(categoria: string): Promise<OfertaModel[]> {
@@ -198,12 +197,15 @@ export class OfertasService {
         return this.ofertas.find(el => el.id === id)
     }
 
-    async getComoUsarOfertaPorid(id: number): Promise<string>{
+    async getComoUsarOfertaPorid(id: number): Promise<string> {
         return this.comoUsar.find(el => el.id == id)?.descricao
     }
 
-    async getOndeFicaOfertaPorid(id: number): Promise<string>{
+    async getOndeFicaOfertaPorid(id: number): Promise<string> {
         return this.ondeFica.find(el => el.id == id)?.descricao
     }
 
+    searchOffer(term: string): Observable<Object>{
+        return this.http.get(`${URL_API}/ofertas?descricao_ofertas_like=${term}`, { responseType: "json", })
+    }
 }

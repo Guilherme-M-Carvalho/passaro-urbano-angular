@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OfertasService } from '../ofertas.service';
 import { OfertaModel } from '../shared/oferta.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -8,17 +9,21 @@ import { OfertaModel } from '../shared/oferta.model';
   styleUrl: './home.component.scss',
   providers: [OfertasService]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   public ofertas: OfertaModel[] = []
+  public sub?: Subscription
 
   constructor(private ofertasService: OfertasService) { }
 
   ngOnInit(): void {
 
-    (async () => {
-      this.ofertas = await this.ofertasService.getOfertas()
-      console.log({ ofertas: this.ofertas });
-    })()
+    this.sub = this.ofertasService.getOfertas().subscribe((el: any) => {
+      this.ofertas = el
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe()
   }
 }
