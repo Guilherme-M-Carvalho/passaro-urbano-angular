@@ -185,11 +185,9 @@ export class OfertasService {
 
     getOfertas(): Observable<Object> {
         return this.http.get("http://localhost:3000/ofertas", { responseType: "json", })
-            
     }
 
     async getOfertasPorCatergoria(categoria: string): Promise<OfertaModel[]> {
-
         return this.ofertas.filter(el => el.categoria == categoria)
     }
 
@@ -205,7 +203,12 @@ export class OfertasService {
         return this.ondeFica.find(el => el.id == id)?.descricao
     }
 
-    searchOffer(term: string): Observable<Object>{
-        return this.http.get(`${URL_API}/ofertas?descricao_ofertas_like=${term}`, { responseType: "json", })
+    searchOffer(term: string): Observable<OfertaModel[]>{
+        return this.http.get(`${URL_API}/ofertas?titulo=${term}`, { responseType: "json",  })
+        .pipe(map((el: any) =>{
+            const res: OfertaModel[] = el
+            
+            return res
+        }))
     }
 }
