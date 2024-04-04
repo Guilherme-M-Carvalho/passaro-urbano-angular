@@ -16,7 +16,7 @@ export class TopoComponent implements OnInit, OnDestroy {
   constructor(private ofertasService: OfertasService) { }
   public sub?: Subscription
   public subjectSearch: Subject<string> = new Subject<string>()
-  public ofertas2: OfertaModel[] = []
+  // public ofertas2: OfertaModel[] = []
 
   onChangeSearch(value: string) {
     this.subjectSearch.next(value)
@@ -41,14 +41,18 @@ export class TopoComponent implements OnInit, OnDestroy {
       catchError((el: any) => {
           return of<OfertaModel[]>([])
       }))
-    this.ofertas.subscribe(item => {
-      this.ofertas2 = item
-    })
+    // this.ofertas.subscribe(item => {
+    //   this.ofertas2 = item
+    // })
 
     //   switchMap(el => )
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe()
+  }
+
+  limpaPesquisa(){
+    this.subjectSearch.next('')
   }
 }

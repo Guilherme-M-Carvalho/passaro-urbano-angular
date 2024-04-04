@@ -14,6 +14,8 @@ export class RestaurantesComponent implements OnInit {
   constructor(private ofertasService: OfertasService){}
   public ofertas: OfertaModel[] = []
 
+  public date: Date = new Date(2017, 8, 30)
+
   ngOnInit(): void {
     this.ofertasService.getOfertasPorCatergoria('restaurante')
     .then(el => {

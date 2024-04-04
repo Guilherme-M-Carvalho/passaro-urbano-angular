@@ -17,15 +17,15 @@ export class OfertaComponent implements OnInit, OnDestroy {
   public oferta: OfertaModel | undefined
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id']
     this.route.params.subscribe(param => {
+      const id = param['id']
+      this.ofertasService.getOfertaById(Number(id))
+        .then(el => {
+          this.oferta = el
+        })
     })
 
     
-    this.ofertasService.getOfertaById(Number(id))
-      .then(el => {
-        this.oferta = el
-      })
 
   }
 

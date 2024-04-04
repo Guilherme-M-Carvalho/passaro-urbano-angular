@@ -15,10 +15,14 @@ export class ComoUsarComponent implements OnInit {
   constructor(private route: ActivatedRoute, private ofertas: OfertasService) { }
 
   ngOnInit(): void {
-    const id = this.route.parent?.snapshot.params['id']
-    this.ofertas.getComoUsarOfertaPorid(id)
-      .then(res => {
-        this.comoUsar = res
-      })
+    this.route.parent?.params.subscribe((param) => {
+      const id = param['id']
+      this.ofertas.getComoUsarOfertaPorid(id)
+        .then(res => {
+          this.comoUsar = res
+        })
+
+    })
+
   }
 }

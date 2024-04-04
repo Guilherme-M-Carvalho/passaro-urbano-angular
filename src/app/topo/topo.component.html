@@ -8,9 +8,14 @@
           </a>
         </div>
         <div class="col-md-6">
-          <input #search (keyup)="onChangeSearch(search.value)" type="text" class="form-control" placeholder="Pesquise por ofertas..." />
+          <input #search (keyup)="onChangeSearch(search.value)" type="text" class="form-control"
+            placeholder="Pesquise por ofertas..." />
           <ul class="list-group" style="position: absolute;">
-            <li class="list-group-item"  *ngFor="let ofert of ofertas2">{{ ofert.titulo }}</li>
+            <li class="list-group-item" *ngFor="let ofert of ofertas | async">
+              <a [routerLink]="['/oferta',ofert.id]" (click)="limpaPesquisa()">
+                {{ ofert.titulo | descriptionRedu:7 | uppercase }}
+              </a>
+            </li>
           </ul>
         </div>
         <div class="col-md-auto">
