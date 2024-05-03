@@ -23,9 +23,8 @@ export class OrdemComService {
             }
         )
         .pipe(
-            map((el) =>{
-                console.log(el);
-                
+            map((el:any) =>{
+                return el?.id
             })
         )
         

@@ -9,10 +9,11 @@ import { OrdemComService } from '../ordem-compra.service';
   styleUrl: './ordem-compra.component.scss',
   providers: [OrdemComService]
 })
-export class OrdemCompraComponent implements OnInit {
+export class  OrdemCompraComponent implements OnInit {
 
   constructor(private ordemCompraService: OrdemComService){}
 
+  public idPedidoCompra: string | undefined
   public endereco: string = ''
   public number: string = ''
   public complement: string = ''
@@ -70,8 +71,7 @@ export class OrdemCompraComponent implements OnInit {
         number: this.number,
         pagamento: this.payment
       }).subscribe((el) => {
-        console.log({el});
-        
+        this.idPedidoCompra = el
       })
     }
   }

@@ -1,4 +1,5 @@
 <div class="container">
+  @if(!idPedidoCompra){
   <div class="ordem-compra">
     <form novalidate>
 
@@ -66,7 +67,7 @@
       <h5>Dados de entrega</h5>
       <hr />
 
-      <div class="form-row">
+      <div class="form-row row">
 
         <div class="form-group col-md-6">
           <input type="text"
@@ -112,7 +113,13 @@
       </div>
 
       <hr />
-      <button type="button" [disabled]="formEstado" (click)="confirmCompra()" class="btn btn-primary btn-lg">Cofirmar compra</button>
+      <button type="button" [disabled]="formEstado" (click)="confirmCompra()" class="btn btn-primary btn-lg">Cofirmar
+        compra</button>
     </form>
   </div>
+  } @else{
+    <div class="ordem-compra">
+      <app-ordem-compra-sucesso [idPedidoCompra]="idPedidoCompra"></app-ordem-compra-sucesso>
+    </div>
+  }
 </div>
