@@ -1,7 +1,6 @@
 // imports
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { TopoComponent } from './topo/topo.component';
 import { HomeComponent } from './home/home.component';
@@ -15,12 +14,13 @@ import { OfertaComponent } from './oferta/oferta.component';
 import { DescricaoReduzida } from './util/descricao-reduzida.pipe';
 import { OrdemCompraSucessoComponent } from './ordem-compra-sucesso/ordem-compra-sucesso.component';
 import { OrdemCompraComponent } from './ordem-compra/ordem-compra.component';
+import { FormsModule } from '@angular/forms';
 
 
 // @NgModule decorator with its metadata
 @NgModule({
     declarations: [AppComponent, TopoComponent, HomeComponent, RodapeComponent, DiversaoComponent, RestaurantesComponent, OfertaComponent, DescricaoReduzida, OrdemCompraComponent, OrdemCompraSucessoComponent],
-    imports: [BrowserModule, HttpClientModule, RouterModule.forRoot(routes)],
+    imports: [BrowserModule, HttpClientModule, FormsModule, RouterModule.forRoot(routes)],
     providers: [],
     bootstrap: [AppComponent]
 })

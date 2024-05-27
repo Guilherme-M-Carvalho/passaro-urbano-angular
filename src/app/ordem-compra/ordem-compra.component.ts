@@ -1,79 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrdemComService } from '../ordem-compra.service';
+import { NgForm } from '@angular/forms';
+import { PedidoModel } from '../shared/pedido.model';
 
 @Component({
   selector: 'app-ordem-compra',
-  // standalone: true,
-  // imports: [],
   templateUrl: './ordem-compra.component.html',
   styleUrl: './ordem-compra.component.scss',
   providers: [OrdemComService]
 })
-export class  OrdemCompraComponent implements OnInit {
+export class OrdemCompraComponent implements OnInit {
 
-  constructor(private ordemCompraService: OrdemComService){}
+  @ViewChild('formulario') public form: NgForm | undefined
 
-  public idPedidoCompra: string | undefined
-  public endereco: string = ''
-  public number: string = ''
-  public complement: string = ''
-  public payment: string = ''
 
-  public enderecoValido: boolean | undefined
-  public numberValido: boolean | undefined
-  public complementValido: boolean | undefined
-  public paymentValido: boolean | undefined
-  public formEstado: boolean = true
+  public idPedido: string | undefined
 
-  changeEnd(event: any) {
-    this.endereco = event
-    this.enderecoValido = this.verifyValid(this.endereco, 3)
-    this.handleForm()
-  }
-  changeNumber(event: any) {
-    this.number = event
-    this.numberValido = this.verifyValid(this.number, 1)
-    this.handleForm()
-  }
-  changeComplement(event: any) {
-    this.complement = event
-    this.complementValido = this.verifyValid(this.complement, 0)
-    this.handleForm()
-  }
-  changePayment(event: any) {
-    this.payment = event
-    this.paymentValido = this.verifyValid(this.payment, 0)
-    this.handleForm()
-  }
+  constructor(private ordemCompraService: OrdemComService) { }
 
-  verifyValid(string: string, length: number): boolean {
-    if (string.length > length) return true
-    return false
-  }
-
-  handleForm() {
-    if (this.enderecoValido &&
-      this.numberValido &&
-      this.paymentValido) {
-      this.formEstado = false
-    } else this.formEstado = true
-  }
-
-  ngOnInit(): void {
-    
-  }
-
-  confirmCompra(){
-    if(!this.formEstado){
-      this.ordemCompraService.efetivarCompra({
-        complemento: this.complement,
-        endereco: this.endereco,
-        number: this.number,
-        pagamento: this.payment
-      }).subscribe((el) => {
-        this.idPedidoCompra = el
-      })
+  submit(form: NgForm){
+    console.log({form: this.form});
+    console.log(this.form?.value);
+    if(!this.form?.value){
+      return
     }
+    const pedido: PedidoModel =new PedidoModel(
+      this.form.value.address,
+      this.form.value.number,
+      this.form.value.complement,
+      this.form.value.payment
+    )
+
+    this.ordemCompraService.efetivarCompra(pedido)
+    .subscribe((el) => {
+      console.log(el);
+        this.idPedido = el
+    })
   }
 
+  ngOnInit() {
+
+  }
+
+  
 }

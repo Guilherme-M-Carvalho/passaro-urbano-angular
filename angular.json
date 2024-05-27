@@ -105,5 +105,8 @@
         "sourceLocale": "pt-Br"
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
