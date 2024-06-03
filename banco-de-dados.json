@@ -217,6 +217,27 @@
       "number": "221",
       "complemento": "Casa B",
       "pagamento": "dinheiro"
+    },
+    {
+      "id": "0f4b",
+      "endereco": "Rua Miguel Elias",
+      "number": "221",
+      "complemento": "Casa",
+      "pagamento": "dinheiro"
+    },
+    {
+      "id": "8dbe",
+      "endereco": "Rua Miguel Elias",
+      "number": "221",
+      "complemento": "Casa A",
+      "pagamento": "dinheiro"
+    },
+    {
+      "id": "7abc",
+      "endereco": "Rua Miguel Elias",
+      "number": "221",
+      "complemento": "Casa B",
+      "pagamento": "debito"
     }
   ]
 }

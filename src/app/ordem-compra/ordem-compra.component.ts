@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrdemComService } from '../ordem-compra.service';
-import { NgForm } from '@angular/forms';
 import { PedidoModel } from '../shared/pedido.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-ordem-compra',
@@ -11,36 +11,41 @@ import { PedidoModel } from '../shared/pedido.model';
 })
 export class OrdemCompraComponent implements OnInit {
 
-  @ViewChild('formulario') public form: NgForm | undefined
+  public form: FormGroup = new FormGroup({
+    'address': new FormControl(null, [Validators.required, Validators.maxLength(120), Validators.minLength(3)]),
+    'number': new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(1)]),
+    'complement': new FormControl(null),
+    'payment': new FormControl(null, [Validators.required]),
+  })
 
 
   public idPedido: string | undefined
 
   constructor(private ordemCompraService: OrdemComService) { }
 
-  submit(form: NgForm){
-    console.log({form: this.form});
-    console.log(this.form?.value);
-    if(!this.form?.value){
-      return
-    }
-    const pedido: PedidoModel =new PedidoModel(
-      this.form.value.address,
-      this.form.value.number,
-      this.form.value.complement,
-      this.form.value.payment
-    )
-
-    this.ordemCompraService.efetivarCompra(pedido)
-    .subscribe((el) => {
-      console.log(el);
-        this.idPedido = el
-    })
-  }
-
   ngOnInit() {
 
   }
 
-  
+  public confirmarCompra(): void {
+    if(!this.form.valid){
+      this.form.get("address")?.markAsTouched()
+      this.form.get("number")?.markAsTouched()
+      this.form.get("complement")?.markAsTouched()
+      this.form.get("payment")?.markAsTouched()
+    } else {
+      this.ordemCompraService.efetivarCompra(new PedidoModel(
+        this.form.value.address,
+        this.form.value.number,
+        this.form.value.complement,
+        this.form.value.payment,
+      )).subscribe((el) => {
+        this.idPedido = el
+      })
+    }
+  }
+
+
+
 }
+
