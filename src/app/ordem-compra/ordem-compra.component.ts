@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrdemComService } from '../ordem-compra.service';
 import { PedidoModel } from '../shared/pedido.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CarrinhoService } from '../carrinho.service';
+import { ItemCarrinho } from '../shared/item-carrinho.model';
 
 @Component({
   selector: 'app-ordem-compra',
@@ -18,34 +20,40 @@ export class OrdemCompraComponent implements OnInit {
     'payment': new FormControl(null, [Validators.required]),
   })
 
+  public itensCarrinho: ItemCarrinho[] = []
 
   public idPedido: string | undefined
 
-  constructor(private ordemCompraService: OrdemComService) { }
+  constructor(
+    private ordemCompraService: OrdemComService,
+    public carrinhoCompra: CarrinhoService
+  ) { }
 
   ngOnInit() {
-
   }
 
   public confirmarCompra(): void {
-    if(!this.form.valid){
+    if (!this.form.valid) {
       this.form.get("address")?.markAsTouched()
       this.form.get("number")?.markAsTouched()
       this.form.get("complement")?.markAsTouched()
       this.form.get("payment")?.markAsTouched()
     } else {
-      this.ordemCompraService.efetivarCompra(new PedidoModel(
-        this.form.value.address,
-        this.form.value.number,
-        this.form.value.complement,
-        this.form.value.payment,
-      )).subscribe((el) => {
-        this.idPedido = el
-      })
+      if(this.carrinhoCompra.itens.length){
+        this.ordemCompraService.efetivarCompra(new PedidoModel(
+          this.form.value.address,
+          this.form.value.number,
+          this.form.value.complement,
+          this.form.value.payment,
+          this.carrinhoCompra.itens
+        )).subscribe((el) => {
+          this.idPedido = el
+          this.carrinhoCompra.clear()
+        })
+      } else {
+        alert('Você não selecionou nenhum item!')
+      }
     }
   }
-
-
-
 }
 

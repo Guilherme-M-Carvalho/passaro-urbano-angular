@@ -14,15 +14,15 @@ import { OfertaComponent } from './oferta/oferta.component';
 import { DescricaoReduzida } from './util/descricao-reduzida.pipe';
 import { OrdemCompraSucessoComponent } from './ordem-compra-sucesso/ordem-compra-sucesso.component';
 import { OrdemCompraComponent } from './ordem-compra/ordem-compra.component';
-import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CarrinhoService } from './carrinho.service';
 
 
 // @NgModule decorator with its metadata
 @NgModule({
     declarations: [AppComponent, TopoComponent, HomeComponent, RodapeComponent, DiversaoComponent, RestaurantesComponent, OfertaComponent, DescricaoReduzida, OrdemCompraComponent, OrdemCompraSucessoComponent],
     imports: [BrowserModule, HttpClientModule, ReactiveFormsModule, RouterModule.forRoot(routes)],
-    providers: [],
+    providers: [CarrinhoService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
